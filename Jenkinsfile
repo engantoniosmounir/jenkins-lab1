@@ -8,30 +8,40 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
+                echo 'Cloning repository...'
                 checkout scm
             }
         }
 
-        stage('Verify PHP & PHPUnit') {
+        stage('Check PHP Version') {
             steps {
-                sh 'php --version'
+                echo 'Checking PHP version...'
+                sh 'php -v'
+            }
+        }
+
+        stage('Check PHPUnit Version') {
+            steps {
+                echo 'Checking PHPUnit version...'
                 sh 'phpunit --version'
             }
         }
 
         stage('Run Unit Tests') {
             steps {
-                sh 'phpunit --bootstrap src/OrderProcessor.php tests/'
+                echo 'Running PHPUnit tests...'
+                sh 'phpunit'
             }
         }
     }
 
     post {
         success {
-            echo '✅ All tests passed — build successful!'
+            echo 'Build succeeded. All tests passed.'
         }
+
         failure {
-            echo '❌ Build failed — unit test errors above.'
+            echo 'Build failed. One or more tests failed.'
         }
     }
 }
