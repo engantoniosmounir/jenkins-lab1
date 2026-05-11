@@ -1,5 +1,5 @@
 pipeline {
-    agent { label 'node-agent' }
+    agent { label 'Built-In Node' }
 
     environment {
         GITHUB_TOKEN = credentials('github-token')
